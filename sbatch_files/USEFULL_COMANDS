@@ -1,0 +1,29 @@
+## para ver as pastas que estao a ser selecionadas?##
+
+for folder in TopHat_Tconv277 TopHat_Tconv274 TopHat_Treg274 TopHat_Treg277; do    export folder;   echo $folder;   ls $TopHat_results/${folder}    done
+
+## listagem das pastas nessa pasta? 
+
+ls -d $TopHat_results/
+ls -d $TopHat_results/*/ | parallel 'echo $(basename {})'
+
+##informaçao do lobo?##
+sinfo
+
+## escolher o nó em que queremos correr o batch
+sbatch --nodelist=compute-3 Parallel_test.sbatch
+
+##ver a ajuda da imagem##
+shifter --image=docker:argrosso/htstools samtools sort --help
+
+?
+srun --help | less     
+
+##ver em tempo real o que está a correr para o meu user
+watch squeue -l -s -u miguel.dias
+
+## opção --dry-run permite ver a listagens dos comandos que vao correr para folder, sem correr ##
+parallel="parallel --dry-run --delay 0.2 -j $SLURM_NTASKS --joblog /mnt/beegfs/scratch/PRECISE/miguel.dias/results_HTseq/$SLURM_JOB_ID.log"
+
+
+   
